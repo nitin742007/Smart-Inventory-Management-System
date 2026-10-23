@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt #{{ sale['id'] }} · Smart Inventory</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="receipt-page">
+<div class="receipt-card">
+    <div class="receipt-top"><p class="eyebrow">SMART INVENTORY</p><h1>Sales receipt</h1><p class="muted">Receipt #{{ sale['id'] }}</p><p class="muted">{{ sale['sale_date'] }}</p></div>
+    <div class="table-wrap"><table><thead><tr><th>Item</th><th>Qty</th><th>Unit price</th><th>Amount</th></tr></thead><tbody>{% for item in items %}<tr><td>{{ item['product_name'] }}</td><td>{{ item['quantity'] }}</td><td>₹{{ '%.2f'|format(item['unit_price']) }}</td><td>₹{{ '%.2f'|format(item['line_total']) }}</td></tr>{% endfor %}</tbody></table></div>
+    <div class="totals"><div><span>Subtotal</span><strong>₹{{ '%.2f'|format(sale['subtotal']) }}</strong></div><div><span>Discount ({{ '%.2f'|format(sale['discount_percent']) }}%)</span><strong>− ₹{{ '%.2f'|format(sale['discount_amount']) }}</strong></div><div><span>Tax ({{ '%.2f'|format(sale['tax_percent']) }}%)</span><strong>₹{{ '%.2f'|format(sale['tax_amount']) }}</strong></div><div class="grand-total"><span>Total paid</span><strong>₹{{ '%.2f'|format(sale['total']) }}</strong></div></div>
+    <p class="receipt-thanks">Thank you!</p>
+    <div class="receipt-actions no-print"><a class="button button-light" href="{{ url_for('index') }}">Back to dashboard</a><p class="print-hint">To print or save this receipt as PDF, press Ctrl+P (or choose Print in your browser menu).</p></div>
+</div>
+</body>
+</html>
